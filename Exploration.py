@@ -54,18 +54,15 @@ test_z = [10,20,50,40,150]*50
 def do_plot1():
     plt.close()
     fig, ax1 = plt.subplots()
-    # plt.plot(time, consumption)
     ax1.plot(time, consumption, 'blue', label='Расходная характеристика')
     ax2 = ax1.twinx()
     ax2.plot(time, temperature, 'orange', label='Температурная характеристика')
-    # plt.xlabel("Время, сек", fontsize=14, fontname='Times New Roman')
-    # plt.ylabel("Расход, мл/мин",fontsize=14, fontname='Times New Roman')
     asd=np.convolve(consumption, np.ones(int(ent3.get()))/int(ent3.get()), mode='valid')
     ax1.plot(time[:len(asd)], asd*(1+(int(ent6.get())/100)), 'brown', label='Граница амплитуды')
     ax1.plot(time[:len(asd)], asd*(1-(int(ent6.get())/100)), 'brown')
     ax1.set_xlabel("Время, сек", fontsize=14, fontname='Times New Roman')
     ax1.set_ylabel("Расход, мл/мин",fontsize=14, fontname='Times New Roman')
-    ax2.set_ylabel("Температура, мВ",fontsize=14, fontname='Times New Roman')
+    ax2.set_ylabel('$\mathregular{U_{тд},мВ}$',fontsize=14, fontname='Times New Roman')
     plt.show()
 
 def do_plot2():
@@ -81,8 +78,6 @@ def do_plot2():
 def graph_1(time, consumption, temperature, color='white', color_amplitude='white', color_temperature='white', status=False):
     global canvas_1
     figure_1 = Figure()
-    # figure_1.set_figheight(5)
-    # figure_1.set_figwidth(1)
     canvas_1 = FigureCanvasTkAgg(figure_1, master=root)
     canvas_1.get_tk_widget().place(x=GRAPH_COORD_X,y=0,width=SCREEN_WIDTH-GRAPH_COORD_X,height=SCREEN_HEIGHT/2-50)
     ax_1 = figure_1.add_subplot()
@@ -108,7 +103,7 @@ def graph_1(time, consumption, temperature, color='white', color_amplitude='whit
     btplot1.place(x=SCREEN_WIDTH/1.07, y=SCREEN_HEIGHT/2-SCREEN_HEIGHT/10-10, width=80, height=30)
     ax_1.set_xlabel("Время, сек", fontsize=14, fontname='Times New Roman')
     ax_1.set_ylabel("Расход, мл/мин",fontsize=14, fontname='Times New Roman')
-    ax_3.set_ylabel("Температура, мВ",fontsize=14, fontname='Times New Roman')
+    ax_3.set_ylabel('$\mathregular{U_{тд},мВ}$',fontsize=14, fontname='Times New Roman')
     figure_1.subplots_adjust(left=None,bottom=0.152,right=0.88,top=None,wspace=None,hspace=None)
     if max(time) > 100:
         ax_1.xaxis.set_major_locator(matplotlib.ticker.MultipleLocator(base=round(max(time)//16, -1)))
@@ -256,7 +251,7 @@ def freq_moving_user(ax_2, time, asd, yhat, color, status):
         ax_2.legend(bbox_to_anchor=(0.82, 1), fontsize='x-small')
 
 
-def Button7():
+def segment_value():
     graph_2(time, consumption, 'red', 'blue', 'black', False)
 
 
@@ -293,6 +288,20 @@ def freq():
     plt.ylabel("Амплитуда", fontsize=14, fontname='Times New Roman')
     plt.show()
 
+def on_close():
+    plt.close()
+    config = ConfigParser()
+    if os.path.exists(CONFIG):
+        config.read(CONFIG)
+    else:
+        config.add_section("parameters")
+    config['parameters']['ent1'] = str(ent1.get())
+    config['parameters']['ent2'] = str(ent2.get())
+    config['parameters']['ent3'] = str(ent3.get())
+    with open('config.ini', 'w') as configfile:
+        config.write(configfile)
+    root.destroy()
+
 
 btplot4 = Button(root, text='Загрузка', command=load_data)
 btplot4.place(x=10, y=10, width=80, height=40)
@@ -300,7 +309,7 @@ btplot5 = Button(root, text='Перестроить', command=rebuild)
 btplot5.place(x=20, y=200, width=100, height=30)
 btplot6 = Button(root, text='Частота', command=freq)
 btplot6.place(x=20, y=290, width=100, height=30)
-btplot7 = Button(root, text='Вычислить', command=Button7)
+btplot7 = Button(root, text='Вычислить', command=segment_value)
 btplot7.place(x=20, y=400, width=100, height=30)
 ent1 = Entry(root, bd=2)
 ent1.place(x=20, y=100, width=45, height=25)
@@ -345,19 +354,6 @@ ToolTip(ent1, 'Нечетное число больше нуля')
 ToolTip(ent2, 'Порядок полинома должен быть меньше периода сглаживания')
 ToolTip(ent3, 'Период скользящей средней должен быть больше нуля')
 
-def on_close():
-    plt.close()
-    config = ConfigParser()
-    if os.path.exists(CONFIG):
-        config.read(CONFIG)
-    else:
-        config.add_section("parameters")
-    config['parameters']['ent1'] = str(ent1.get())
-    config['parameters']['ent2'] = str(ent2.get())
-    config['parameters']['ent3'] = str(ent3.get())
-    with open('config.ini', 'w') as configfile:
-        config.write(configfile)
-    root.destroy()
 
 if __name__ == "__main__":
     try:
