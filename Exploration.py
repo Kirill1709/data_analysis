@@ -81,6 +81,8 @@ def do_plot2():
 def graph_1(time, consumption, temperature, color='white', color_amplitude='white', color_temperature='white', status=False):
     global canvas_1
     figure_1 = Figure()
+    # figure_1.set_figheight(5)
+    # figure_1.set_figwidth(1)
     canvas_1 = FigureCanvasTkAgg(figure_1, master=root)
     canvas_1.get_tk_widget().place(x=GRAPH_COORD_X,y=0,width=SCREEN_WIDTH-GRAPH_COORD_X,height=SCREEN_HEIGHT/2-50)
     ax_1 = figure_1.add_subplot()
@@ -92,7 +94,7 @@ def graph_1(time, consumption, temperature, color='white', color_amplitude='whit
     ax_1.plot(time[:len(asd)], asd*(1+(int(ent6.get())/100)), color_amplitude, label='Граница амплитуды')
     ax_1.plot(time[:len(asd)], asd*(1-(int(ent6.get())/100)), color_amplitude)
     if status:
-        figure_1.legend(bbox_to_anchor=(0.9, 0.88), fontsize='x-small')
+        figure_1.legend(bbox_to_anchor=(0.88, 0.88), fontsize='x-small')
     try:
         ax_1.fill_between([time[section[0]], time[section[1]]], min(consumption), max(consumption), color='green', alpha=0.2)
     except Exception:
@@ -106,7 +108,8 @@ def graph_1(time, consumption, temperature, color='white', color_amplitude='whit
     btplot1.place(x=SCREEN_WIDTH/1.07, y=SCREEN_HEIGHT/2-SCREEN_HEIGHT/10-10, width=80, height=30)
     ax_1.set_xlabel("Время, сек", fontsize=14, fontname='Times New Roman')
     ax_1.set_ylabel("Расход, мл/мин",fontsize=14, fontname='Times New Roman')
-    figure_1.subplots_adjust(left=None,bottom=0.152,right=None,top=None,wspace=None,hspace=None)
+    ax_3.set_ylabel("Температура, мВ",fontsize=14, fontname='Times New Roman')
+    figure_1.subplots_adjust(left=None,bottom=0.152,right=0.88,top=None,wspace=None,hspace=None)
     if max(time) > 100:
         ax_1.xaxis.set_major_locator(matplotlib.ticker.MultipleLocator(base=round(max(time)//16, -1)))
     if max(temperature) > 100:
@@ -125,9 +128,6 @@ def graph_2(time, consumption, color_average='white',
     asd=np.convolve(yhat, np.ones(int(ent3.get()))/int(ent3.get()), mode='valid')
     ax_2.plot(time[:len(asd)], asd, color_average, label='Скользящая средняя')
     ax_2.plot(time, yhat, color_smooth, label='Сглаженный график')
-    # ax_2.grid(color=color_grid)
-    # if status:
-    #     ax_2.legend(bbox_to_anchor=(0.9, 0.9), fontsize='x-small')
     ax_2.set_xlabel("Время, сек", fontsize=14, fontname='Times New Roman')
     ax_2.set_ylabel("Расход, мл/мин", fontsize=14, fontname='Times New Roman')
     figure_2.subplots_adjust(left=None,bottom=0.15,right=None,top=0.87,wspace=None,hspace=None)
