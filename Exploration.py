@@ -11,9 +11,7 @@ from idlelib.tooltip import ToolTip
 from matplotlib.backends.backend_tkagg import (FigureCanvasTkAgg,
                                                NavigationToolbar2Tk)
 from matplotlib.figure import Figure
-from scipy.ndimage.measurements import label
 from scipy.signal import savgol_filter
-from scipy.signal.wavelets import ricker
 
 CONFIG = 'config.ini'
 
