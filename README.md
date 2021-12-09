@@ -16,7 +16,7 @@ GUI расчета и визуализации данных расходомер
 - Tkinter
 - Matplotlib 3.5
 
-### Зайдите на север и клонируйте проект 
+### Клонируйте проект 
 ```
 git clone git@github.com:Kirill1709/data_analysis.git
 ```
