@@ -134,13 +134,8 @@ def graph_1(
     toolbar_1.config(background='white')
     btplot1 = tk.Button(root, text='Подробнее', command=do_plot1)
     btplot1.place(
-        x=SCREEN_WIDTH /
-        1.07,
-        y=SCREEN_HEIGHT /
-        2 -
-        SCREEN_HEIGHT /
-        10 -
-        10,
+        x=SCREEN_WIDTH / 1.07,
+        y=SCREEN_HEIGHT / 2 - SCREEN_HEIGHT / 10 - 10,
         width=80,
         height=30)
     ax_1.set_xlabel("Время, сек", fontsize=14, fontname='Times New Roman')
@@ -210,22 +205,17 @@ def graph_2(time, consumption, color_average='white',
     toolbar_2 = VerticalNavigationToolbar2Tk(canvas_2, root)
     toolbar_2.update()
     toolbar_2.place(
-        x=SCREEN_WIDTH /
-        1.05,
-        y=SCREEN_HEIGHT /
-        20 +
-        SCREEN_HEIGHT /
-        2)
+        x=SCREEN_WIDTH / 1.05,
+        y=SCREEN_HEIGHT / 20 + SCREEN_HEIGHT / 2
+    )
     toolbar_2.config(background='white')
     btplot2 = tk.Button(root, text='Подробнее', command=do_plot2)
     btplot2.place(
-        x=SCREEN_WIDTH /
-        1.07,
-        y=SCREEN_HEIGHT -
-        SCREEN_HEIGHT /
-        10,
+        x=SCREEN_WIDTH / 1.07,
+        y=SCREEN_HEIGHT - SCREEN_HEIGHT / 10,
         width=80,
-        height=30)
+        height=30
+    )
     canvas_2.mpl_connect('button_press_event', onclick)
     try:
         ax_2.fill_between([time[section[0]], time[section[1]]], min(
