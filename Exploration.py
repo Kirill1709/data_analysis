@@ -320,13 +320,7 @@ def freq_moving_user(ax_2, time, asd, yhat, color, status):
         begin = left = binarySearch(time, float(
             ent4.get()), 0, len(time) - 1, 0.98, 1)
         right = binarySearch(
-            time,
-            float(
-                ent5.get()),
-            0,
-            len(time) - 1,
-            1,
-            1.02)
+            time, float(ent5.get()), 0, len(time) - 1, 1, 1.02)
         ax_2.plot([time[begin], time[begin]], [
                   min(yhat), max(yhat)], color=color)
         ax_2.plot([time[right], time[right]], [
